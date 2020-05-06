@@ -18,6 +18,11 @@ public class FornecedorBEAN {
 
     public FornecedorBEAN() {}
 
+    public FornecedorBEAN(String razaoSocial, String statusFornecedor) {
+        this.razaoSocial = razaoSocial;
+        this.statusFornecedor = statusFornecedor;
+    }
+
     public FornecedorBEAN(int idFornecedor, String razaoSocial, String statusFornecedor) {
         this.idFornecedor = idFornecedor;
         this.razaoSocial = razaoSocial;
