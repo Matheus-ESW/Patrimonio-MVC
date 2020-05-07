@@ -36,7 +36,8 @@ public class LocalizacaoDAO {
 
     public void update(LocalizacaoBEAN localizacao) {
         String query = "UPDATE localizacao SET descricaoLocalizacao=?, statusLocalizacao=? WHERE idLocalizacao=?";
-        MySQLDAO.executeQuery(query, localizacao.getDescricaoLocalizacao(), localizacao.getStatusLocalizacao());
+        MySQLDAO.executeQuery(query, localizacao.getDescricaoLocalizacao(), localizacao.getStatusLocalizacao(),
+            localizacao.getIdLocalizacao());
 
     }
 
@@ -70,7 +71,7 @@ public class LocalizacaoDAO {
         return lista;
     }
 
-    public LocalizacaoBEAN buscaLocalizacao(int id) {
+    public LocalizacaoBEAN buscarLocalizacao(int id) {
         
         LocalizacaoBEAN result = null;
         ResultSet rs = null;
@@ -88,7 +89,7 @@ public class LocalizacaoDAO {
         return result;
     }
 
-    public int buscaID(LocalizacaoBEAN localizacao) {
+    public int buscarID(LocalizacaoBEAN localizacao) {
         
         int result = 0;
         ResultSet rs = null;
@@ -122,5 +123,24 @@ public class LocalizacaoDAO {
             e.printStackTrace();
         }
         return result;
+    }
+    
+    public ArrayList<LocalizacaoBEAN> listaLocalizacaoNome(LocalizacaoBEAN localizacao){
+        
+        ArrayList<LocalizacaoBEAN> lista = new ArrayList<LocalizacaoBEAN>();
+        ResultSet rs = null;
+        
+        rs = MySQLDAO.getResultSet("SELECT * FROM localizacao WHERE descricaoLocalizacao LIKE '%" + localizacao.getDescricaoLocalizacao()+ "%'");
+        try {
+            while (rs.next()) {
+                lista.add(new LocalizacaoBEAN(rs.getInt("idLocalizacao"), 
+                                            rs.getString("descricaoLocalizacao"), 
+                                            rs.getString("statusLocalizacao")));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lista;
     }
 }

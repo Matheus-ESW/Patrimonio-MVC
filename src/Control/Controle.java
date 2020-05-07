@@ -8,6 +8,8 @@ package Control;
 
 import Model.FornecedorBEAN;
 import Model.FornecedorDAO;
+import Model.LocalizacaoBEAN;
+import Model.LocalizacaoDAO;
 import java.util.ArrayList;
 
 /**
@@ -46,5 +48,48 @@ public class Controle {
 
     public ArrayList<FornecedorBEAN> listaFornecedores() {
         return FornecedorDAO.getInstance().buscaTodosFornecedores();
+    }
+    
+    public ArrayList<FornecedorBEAN> listaFornecedoresPorNome(FornecedorBEAN fornecedor) {
+        return FornecedorDAO.getInstance().listaFornecedorNome(fornecedor);
+    }
+    
+    
+    
+    
+   public void addLocalizacao(LocalizacaoBEAN localizacao) {
+        LocalizacaoDAO.getInstance().create(localizacao);
+    }
+
+    public void updateLocalizacao(LocalizacaoBEAN localizacao) {
+        LocalizacaoDAO.getInstance().update(localizacao);
+    }
+
+    public void ativarLocalizacao(LocalizacaoBEAN localizacao) {
+        LocalizacaoDAO.getInstance().ativarLocalizacao(localizacao);
+    }
+    
+    public void inativarLocalizacao(LocalizacaoBEAN localizacao) {
+        LocalizacaoDAO.getInstance().inativarLocalizacao(localizacao);
+    }
+
+    public LocalizacaoBEAN findLocalizacao(int id) {
+        return LocalizacaoDAO.getInstance().buscarLocalizacao(id);
+    }
+
+    public int findIdLocalizacao(LocalizacaoBEAN localizacao) {
+        return LocalizacaoDAO.getInstance().buscarID(localizacao);
+    }
+
+    public Boolean isExistLocal(int id) {
+        return LocalizacaoDAO.getInstance().isExist(id);
+    }
+
+    public ArrayList<LocalizacaoBEAN> listaLocalizacoes() {
+        return LocalizacaoDAO.getInstance().buscaTodasLocalizacoes();
+    }
+    
+    public ArrayList<LocalizacaoBEAN> listaLocalizacoesPorNome(LocalizacaoBEAN localizacao) {
+        return LocalizacaoDAO.getInstance().listaLocalizacaoNome(localizacao);
     }
 }

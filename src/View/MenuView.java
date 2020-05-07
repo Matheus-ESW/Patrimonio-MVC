@@ -63,6 +63,11 @@ public class MenuView extends javax.swing.JFrame {
         jButtonLaboratorio.setBounds(20, 170, 130, 40);
 
         jButtonLocalizacao.setText("Localizaçao");
+        jButtonLocalizacao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonLocalizacaoActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButtonLocalizacao);
         jButtonLocalizacao.setBounds(20, 220, 130, 40);
 
@@ -98,6 +103,12 @@ public class MenuView extends javax.swing.JFrame {
         new FornecedorView().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButtonFornecedorActionPerformed
+
+    private void jButtonLocalizacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLocalizacaoActionPerformed
+        // TODO add your handling code here:
+        new LocalizacaoView().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButtonLocalizacaoActionPerformed
 
     /**
      * @param args the command line arguments

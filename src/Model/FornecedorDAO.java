@@ -36,7 +36,7 @@ public class FornecedorDAO {
 
     public void update(FornecedorBEAN fornecedor) {
         String query = "UPDATE fornecedor SET razaoSocial=?, statusFornecedor=? WHERE idFornecedor=?";
-        MySQLDAO.executeQuery(query, fornecedor.getRazaoSocial(), fornecedor.getStatusFornecedor());
+        MySQLDAO.executeQuery(query, fornecedor.getRazaoSocial(), fornecedor.getStatusFornecedor(), fornecedor.getIdFornecedor());
 
     }
 
@@ -121,5 +121,24 @@ public class FornecedorDAO {
             e.printStackTrace();
         }
         return result;
+    }
+    
+    public ArrayList<FornecedorBEAN> listaFornecedorNome(FornecedorBEAN fornecedor){
+        
+        ArrayList<FornecedorBEAN> lista = new ArrayList<FornecedorBEAN>();
+        ResultSet rs = null;
+        
+        rs = MySQLDAO.getResultSet("SELECT * FROM fornecedor WHERE razaoSocial LIKE '%" + fornecedor.getRazaoSocial() + "%'");
+        try {
+            while (rs.next()) {
+                lista.add(new FornecedorBEAN(rs.getInt("idFornecedor"), 
+                                            rs.getString("razaoSocial"), 
+                                            rs.getString("statusFornecedor")));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lista;
     }
 }
