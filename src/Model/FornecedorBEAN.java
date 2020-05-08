@@ -52,4 +52,9 @@ public class FornecedorBEAN {
     public void setStatusFornecedor(String statusFornecedor) {
         this.statusFornecedor = statusFornecedor;
     }
+
+    @Override
+    public String toString() {
+        return getRazaoSocial();
+    }
 }

@@ -24,43 +24,57 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="jTextFieldRazaoSocial" min="-2" pref="470" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jCheckBoxInativo" min="-2" pref="97" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jScrollPane1" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="jTextFieldDescricaoEquipamento" max="32767" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="jCheckBoxInativo" min="-2" pref="89" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
-              </Group>
-          </Group>
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="jTextFieldBusca" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
-                      <Component id="jButtonSalvar" min="-2" pref="120" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jButtonEditar" min="-2" pref="120" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jButtonExcluir" min="-2" pref="120" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="81" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="jTextFieldBusca" max="32767" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <Component id="jButtonSalvar" min="-2" pref="120" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jButtonEditar" min="-2" pref="120" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jButtonExcluir" min="-2" pref="120" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jButtonCancelar" min="-2" pref="120" max="-2" attributes="0"/>
+                                  <Component id="jButtonPesquisar" min="-2" pref="120" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jComboBoxTipo" min="-2" pref="160" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="96" max="-2" attributes="0"/>
+                              <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jComboBoxFornecedor" min="-2" pref="169" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace min="-2" pref="97" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="jButtonConsultar" pref="120" max="32767" attributes="0"/>
-                  <Component id="jButtonCancelar" max="32767" attributes="0"/>
-              </Group>
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -71,11 +85,18 @@
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jTextFieldRazaoSocial" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jTextFieldDescricaoEquipamento" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jCheckBoxInativo" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="16" max="32767" attributes="0"/>
-              <Component id="jScrollPane1" min="-2" pref="330" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jComboBoxTipo" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jComboBoxFornecedor" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jScrollPane1" min="-2" pref="385" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jButtonSalvar" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -86,9 +107,9 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jTextFieldBusca" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButtonConsultar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButtonPesquisar" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace pref="20" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -96,14 +117,28 @@
   <SubComponents>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Razao Social"/>
+        <Property name="text" type="java.lang.String" value="Descri&#xe7;ao Equipamento"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextFieldRazaoSocial">
+    <Component class="javax.swing.JTextField" name="jTextFieldDescricaoEquipamento">
     </Component>
     <Component class="javax.swing.JCheckBox" name="jCheckBoxInativo">
       <Properties>
         <Property name="text" type="java.lang.String" value="Inativo"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBoxInativoActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="jComboBoxTipo">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="3">
+            <StringItem index="0" value="CPU"/>
+            <StringItem index="1" value="Monitor"/>
+            <StringItem index="2" value="Mouse/Teclado"/>
+          </StringArray>
+        </Property>
       </Properties>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
@@ -113,28 +148,40 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTable" name="jTableFornecedores">
+        <Component class="javax.swing.JTable" name="jTableEquipamentos">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="3" rowCount="0">
+              <Table columnCount="5" rowCount="0">
                 <Column editable="false" title="ID" type="java.lang.Long"/>
-                <Column editable="false" title="Razao Social" type="java.lang.String"/>
+                <Column editable="false" title="Descri&#xe7;ao" type="java.lang.String"/>
+                <Column editable="false" title="Tipo" type="java.lang.String"/>
+                <Column editable="false" title="Fornecedor" type="java.lang.Long"/>
                 <Column editable="false" title="Status" type="java.lang.String"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
               <TableColumnModel selectionModel="0">
-                <Column maxWidth="-1" minWidth="-1" prefWidth="20" resizable="false">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="5" resizable="false">
                   <Title/>
                   <Editor/>
                   <Renderer/>
                 </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="300" resizable="false">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="200" resizable="false">
                   <Title/>
                   <Editor/>
                   <Renderer/>
                 </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="100" resizable="false">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="80" resizable="false">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="80" resizable="false">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="80" resizable="false">
                   <Title/>
                   <Editor/>
                   <Renderer/>
@@ -146,7 +193,7 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTableFornecedoresMouseClicked"/>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTableEquipamentosMouseClicked"/>
           </Events>
         </Component>
       </SubComponents>
@@ -182,13 +229,33 @@
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldBusca">
     </Component>
-    <Component class="javax.swing.JButton" name="jButtonConsultar">
+    <Component class="javax.swing.JButton" name="jButtonPesquisar">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Consultar"/>
+        <Property name="text" type="java.lang.String" value="Pesquisar"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonConsultarActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonPesquisarActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel2">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Tipo: "/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel3">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Fornecedor: "/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="jComboBoxFornecedor">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="0"/>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>

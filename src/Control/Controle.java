@@ -6,6 +6,8 @@
 
 package Control;
 
+import Model.EquipamentoBEAN;
+import Model.EquipamentoDAO;
 import Model.FornecedorBEAN;
 import Model.FornecedorDAO;
 import Model.LocalizacaoBEAN;
@@ -18,6 +20,8 @@ import java.util.ArrayList;
  */
 public class Controle {
 
+    
+    // CONTROLE FORNECEDOR
     public void addFornecedor(FornecedorBEAN fornecedor) {
         FornecedorDAO.getInstance().create(fornecedor);
     }
@@ -54,9 +58,17 @@ public class Controle {
         return FornecedorDAO.getInstance().listaFornecedorNome(fornecedor);
     }
     
+    public FornecedorBEAN fornecedorDaCombo(FornecedorBEAN fornecedor){
+        return FornecedorDAO.getInstance().fornecedorDaCombo(fornecedor);
+    }
+    
+    public FornecedorBEAN fornecedorPeloNome(String fornecedor){
+        return FornecedorDAO.getInstance().fornecedorPeloNome(fornecedor);
+    }
     
     
-    
+   
+    // CONTROLE LOCALIZAÇAO
    public void addLocalizacao(LocalizacaoBEAN localizacao) {
         LocalizacaoDAO.getInstance().create(localizacao);
     }
@@ -91,5 +103,45 @@ public class Controle {
     
     public ArrayList<LocalizacaoBEAN> listaLocalizacoesPorNome(LocalizacaoBEAN localizacao) {
         return LocalizacaoDAO.getInstance().listaLocalizacaoNome(localizacao);
+    }
+    
+        
+    
+    
+   // CONTROLE EQUIPAMENTO
+   public void addEquipamento(EquipamentoBEAN equipamento) {
+        EquipamentoDAO.getInstance().create(equipamento);
+    }
+
+    public void updateEquipamento(EquipamentoBEAN equipamento) {
+        EquipamentoDAO.getInstance().update(equipamento);
+    }
+
+    public void ativarEquipamento(EquipamentoBEAN equipamento) {
+        EquipamentoDAO.getInstance().ativarEquipamento(equipamento);
+    }
+    
+    public void inativarEquipamento(EquipamentoBEAN equipamento) {
+        EquipamentoDAO.getInstance().inativarEquipamento(equipamento);
+    }
+
+    public EquipamentoBEAN findEquipamento(int id) {
+        return EquipamentoDAO.getInstance().buscarEquipamento(id);
+    }
+
+    public int findIdEquipamento(EquipamentoBEAN equipamento) {
+        return EquipamentoDAO.getInstance().buscarID(equipamento);
+    }
+
+    public Boolean isExistEquipamento(int id) {
+        return EquipamentoDAO.getInstance().isExist(id);
+    }
+
+    public ArrayList<EquipamentoBEAN> listaEquipamentos() {
+        return EquipamentoDAO.getInstance().buscaTodosEquipamentos();
+    }
+    
+    public ArrayList<EquipamentoBEAN> listaEquipamentosPorNome(EquipamentoBEAN equipamento) {
+        return EquipamentoDAO.getInstance().listaEquipamentoNome(equipamento);
     }
 }

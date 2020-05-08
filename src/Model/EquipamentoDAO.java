@@ -38,9 +38,9 @@ public class EquipamentoDAO {
 
     public void update(EquipamentoBEAN equipamento) {
         String query = "UPDATE equipamento SET tipoEquipamento=?, descricaoEquipamento=?, statusEquipamento=?, fornecedor_idFornecedor=?"
-                + "WHERE idEquipamento=?";
+                + " WHERE idEquipamento=?";
         MySQLDAO.executeQuery(query, equipamento.getTipoEquipamento(), equipamento.getDescricaoEquipamento(),
-                equipamento.getStatusEquipamento(), equipamento.getFornecedor_idFornecedor());
+                equipamento.getStatusEquipamento(), equipamento.getFornecedor_idFornecedor(), equipamento.getIdEquipamento());
 
     }
 
@@ -74,7 +74,7 @@ public class EquipamentoDAO {
         return lista;
     }
 
-    public EquipamentoBEAN buscaEquipamento(int id) {
+    public EquipamentoBEAN buscarEquipamento(int id) {
         
         EquipamentoBEAN result = null;
         ResultSet rs = null;
@@ -93,7 +93,7 @@ public class EquipamentoDAO {
         return result;
     }
 
-    public int buscaID(EquipamentoBEAN equipamento) {
+    public int buscarID(EquipamentoBEAN equipamento) {
         int result = 0;
         ResultSet rs = null;
         rs = MySQLDAO.getResultSet(
@@ -124,5 +124,26 @@ public class EquipamentoDAO {
             e.printStackTrace();
         }
         return result;
+    }
+    
+    public ArrayList<EquipamentoBEAN> listaEquipamentoNome(EquipamentoBEAN equipamento){
+        
+        ArrayList<EquipamentoBEAN> lista = new ArrayList<EquipamentoBEAN>();
+        ResultSet rs = null;
+        
+        rs = MySQLDAO.getResultSet("SELECT * FROM equipamento WHERE descricaoEquipamento LIKE '%" + equipamento.getDescricaoEquipamento()+ "%'");
+        try {
+            while (rs.next()) {
+                lista.add(new EquipamentoBEAN(rs.getInt("idEquipamento"), 
+                                            rs.getString("tipoEquipamento"), 
+                                            rs.getString("descricaoEquipamento"),
+                                            rs.getString("statusEquipamento"),
+                                            rs.getInt("fornecedor_idFornecedor")));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lista;
     }
 }

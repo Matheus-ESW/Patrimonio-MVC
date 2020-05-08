@@ -141,4 +141,42 @@ public class FornecedorDAO {
         }
         return lista;
     }
+    
+    public FornecedorBEAN fornecedorDaCombo(FornecedorBEAN fornecedor){
+        
+        FornecedorBEAN lista = new FornecedorBEAN();
+        ResultSet rs = null;
+        
+        rs = MySQLDAO.getResultSet("SELECT * FROM fornecedor WHERE razaoSocial LIKE '%" + fornecedor.getRazaoSocial() + "%'");
+        try {
+            while (rs.next()) {
+                lista = (new FornecedorBEAN(rs.getInt("idFornecedor"), 
+                                            rs.getString("razaoSocial"), 
+                                            rs.getString("statusFornecedor")));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lista;
+    }
+    
+    public FornecedorBEAN fornecedorPeloNome(String fornecedor){
+        
+        FornecedorBEAN lista = new FornecedorBEAN();
+        ResultSet rs = null;
+        
+        rs = MySQLDAO.getResultSet("SELECT * FROM fornecedor WHERE razaoSocial LIKE '%" + fornecedor + "%'");
+        try {
+            while (rs.next()) {
+                lista = (new FornecedorBEAN(rs.getInt("idFornecedor"), 
+                                            rs.getString("razaoSocial"), 
+                                            rs.getString("statusFornecedor")));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lista;
+    }
 }
