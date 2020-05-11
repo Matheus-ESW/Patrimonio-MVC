@@ -146,4 +146,26 @@ public class EquipamentoDAO {
         }
         return lista;
     }
+    
+    public EquipamentoBEAN equipamentoPeloNome(String equipamento){
+        
+        EquipamentoBEAN lista = new EquipamentoBEAN();
+        ResultSet rs = null;
+        
+        rs = MySQLDAO.getResultSet("SELECT * FROM equipamento WHERE descricaoEquipamento LIKE '%" + equipamento + "%'");
+        try {
+            while (rs.next()) {
+                lista = new EquipamentoBEAN(rs.getInt("idEquipamento"), 
+                                            rs.getString("tipoEquipamento"), 
+                                            rs.getString("descricaoEquipamento"),
+                                            rs.getString("statusEquipamento"),
+                                            rs.getInt("fornecedor_idFornecedor"));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return lista;
+    }
 }

@@ -60,10 +60,20 @@ public class MenuView extends javax.swing.JFrame {
         jButtonEquipamento.setBounds(20, 120, 130, 40);
 
         jButtonEstacaoTrabalho.setText("Est. Trabalho");
+        jButtonEstacaoTrabalho.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEstacaoTrabalhoActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButtonEstacaoTrabalho);
         jButtonEstacaoTrabalho.setBounds(20, 270, 130, 40);
 
         jButtonLaboratorio.setText("Laboratorio");
+        jButtonLaboratorio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonLaboratorioActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButtonLaboratorio);
         jButtonLaboratorio.setBounds(20, 170, 130, 40);
 
@@ -120,6 +130,18 @@ public class MenuView extends javax.swing.JFrame {
         new EquipamentoView().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButtonEquipamentoActionPerformed
+
+    private void jButtonLaboratorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLaboratorioActionPerformed
+        // TODO add your handling code here:
+        new LaboratorioView().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButtonLaboratorioActionPerformed
+
+    private void jButtonEstacaoTrabalhoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEstacaoTrabalhoActionPerformed
+        // TODO add your handling code here:
+        new EstacaoTrabalhoView().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButtonEstacaoTrabalhoActionPerformed
 
     /**
      * @param args the command line arguments

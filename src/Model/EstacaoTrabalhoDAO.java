@@ -32,41 +32,42 @@ public class EstacaoTrabalhoDAO {
 
     public long create(EstacaoTrabalhoBEAN estacaoTrabalho) {
         String query = "INSERT INTO estacao_trabalho (descricaoEstacaoTrabalho, monitor_idEquipamento, cpu_idEquipamento,"
-                + "mouseTeclado_idEquipamento) VALUES (?,?,?,?)";
+                + " mouseTeclado_idEquipamento) VALUES (?,?,?,?)";
         return MySQLDAO.executeQuery(query, estacaoTrabalho.getDescricaoEstacaoTrabalho(), estacaoTrabalho.getMonitor_idEquipamento(),
                 estacaoTrabalho.getCpu_idEquipamento(), estacaoTrabalho.getMouseTeclado_idEquipamento());
     }
 
-    public void update(LaboratorioBEAN laboratorio) {
-        String query = "UPDATE laboratorio SET descricaoLaboratorio=?, numeroEquipamento=?, statusLaboratorio=?, localizacao_idLocalizacao=?"
-                + "WHERE idLaboratorio=?";
-        MySQLDAO.executeQuery(query, laboratorio.getDescricaoLaboratorio(), laboratorio.getNumeroEquipamento(),
-                laboratorio.getStatusLaboratorio(), laboratorio.getLocalizacao_idLocalizacao());
+    public void update(EstacaoTrabalhoBEAN estacaoTrabalho) {
+        String query = "UPDATE estacao_trabalho SET descricaoEstacaoTrabalho=?, monitor_idEquipamento=?, cpu_idEquipamento=?, mouseTeclado_idEquipamento=?"
+                + " WHERE idEstacaoTrabalho=?";
+        MySQLDAO.executeQuery(query, estacaoTrabalho.getDescricaoEstacaoTrabalho(), estacaoTrabalho.getMonitor_idEquipamento(), 
+                estacaoTrabalho.getCpu_idEquipamento(), estacaoTrabalho.getMouseTeclado_idEquipamento(), estacaoTrabalho.getIdEstacaoTrabalho());
 
     }
 
-    public void ativarLaboratorio(LaboratorioBEAN laboratorio) {
-        MySQLDAO.executeQuery("UPDATE laboratorio SET statusLaboratorio = 1 WHERE idLaboratorio = ?", laboratorio.getIdLaboratorio());
+    /*
+    public void ativarEstacaoTrabalho(EstacaoTrabalhoBEAN estacaoTrabalho) {
+        MySQLDAO.executeQuery("UPDATE estacao_trabalho SET statusLaboratorio = 1 WHERE idLaboratorio = ?", laboratorio.getIdLaboratorio());
     }
     
-    public void inativarLaboratorio(LaboratorioBEAN laboratorio) {
+    public void inativarEstacaoTrabalho(EstacaoTrabalhoBEAN estacaoTrabalho) {
         MySQLDAO.executeQuery("UPDATE laboratorio SET statusLaboratorio = 0 WHERE idLaboratorio = ?", laboratorio.getIdLaboratorio());
+    }*/
+
+    public ArrayList<EstacaoTrabalhoBEAN> buscaTodosEstacaoTrabalho() {
+        return listaEstacaoTrabalho("SELECT * FROM estacao_trabalho ORDER BY idEstacaoTrabalho");
     }
 
-    public ArrayList<LaboratorioBEAN> buscaTodosLaboratorios() {
-        return listaLaboratorios("SELECT * FROM laboratorio ORDER BY idLaboratorio");
-    }
-
-    public ArrayList<LaboratorioBEAN> listaLaboratorios(String query) {
+    public ArrayList<EstacaoTrabalhoBEAN> listaEstacaoTrabalho(String query) {
         
-        ArrayList<LaboratorioBEAN> lista = new ArrayList<LaboratorioBEAN>();
+        ArrayList<EstacaoTrabalhoBEAN> lista = new ArrayList<EstacaoTrabalhoBEAN>();
         ResultSet rs = null;
         rs = MySQLDAO.getResultSet(query);
         
         try {
             while (rs.next()) {
-                lista.add(new LaboratorioBEAN(rs.getInt("idLaboratorio"), rs.getString("descricaoLaboratorio"),
-                    rs.getInt("numeroEquipamento"), rs.getString("statusLaboratorio"), rs.getInt("localizacao_idLocalizacao")));
+                lista.add(new EstacaoTrabalhoBEAN(rs.getInt("idEstacaoTrabalho"), rs.getString("descricaoEstacaoTrabalho"),
+                    rs.getInt("monitor_idEquipamento"), rs.getInt("cpu_idEquipamento"), rs.getInt("mouseTeclado_idEquipamento")));
             }
             rs.close();
         } catch (SQLException e) {
@@ -75,15 +76,16 @@ public class EstacaoTrabalhoDAO {
         return lista;
     }
 
-    public LaboratorioBEAN buscaLaboratorio(int id) {
+    public EstacaoTrabalhoBEAN buscaEstacaoTrabalho(int id) {
         
-        LaboratorioBEAN result = null;
+        EstacaoTrabalhoBEAN result = null;
         ResultSet rs = null;
-        rs = MySQLDAO.getResultSet("SELECT * FROM laboratorio WHERE idLaboratorio=?", id);
+        rs = MySQLDAO.getResultSet("SELECT * FROM estacao_trabalho WHERE idEstacaoTrabalho=?", id);
         
         try {
             if (rs.next()) {
-                result = new LaboratorioBEAN(rs.getInt("idLaboratorio"), rs.getString("descricaoLaboratorio"), rs.getInt("numeroEquipamento"), rs.getString("statusLaboratorio"), rs.getInt("localizacao_idLocalizacao"));
+                result = new EstacaoTrabalhoBEAN(rs.getInt("idEstacaoTrabalho"), rs.getString("descricaoEstacaoTrabalho"),
+                    rs.getInt("monitor_idEquipamento"), rs.getInt("cpu_idEquipamento"), rs.getInt("mouseTeclado_idEquipamento"));
 
             }
             rs.close();
@@ -93,18 +95,19 @@ public class EstacaoTrabalhoDAO {
         return result;
     }
 
-    public int buscaID(LaboratorioBEAN laboratorio) {
+    public int buscaID(EstacaoTrabalhoBEAN estacaoTrabalho) {
         
         int result = 0;
         ResultSet rs = null;
         
         rs = MySQLDAO.getResultSet(
-                "SELECT * FROM laboratorio WHERE descricaoLaboratorio=? AND numeroEquipamento=? AND statusLaboratorio =?"
-                        + " AND localizacao_idLocalizacao=?", laboratorio.getDescricaoLaboratorio(), laboratorio.getNumeroEquipamento(),
-                        laboratorio.getStatusLaboratorio(), laboratorio.getLocalizacao_idLocalizacao());
+                "SELECT * FROM estacao_trabalho WHERE descricaoEstacaoTrabalho=? AND monitor_idEquipamento=? AND cpu_idEquipamento =? AND"
+                        + " mouseTeclado_idEquipamento =?", estacaoTrabalho.getDescricaoEstacaoTrabalho(),
+                        estacaoTrabalho.getMonitor_idEquipamento(), estacaoTrabalho.getCpu_idEquipamento(),
+                        estacaoTrabalho.getMouseTeclado_idEquipamento());
         try {
             if (rs.next()) {
-                result = rs.getInt("idLaboratorio");
+                result = rs.getInt("idEstacaoTrabalho");
             }
             rs.close();
         } catch (SQLException e) {
@@ -116,7 +119,7 @@ public class EstacaoTrabalhoDAO {
     public Boolean isExist(int id) {
         Boolean result = false;
         ResultSet rs = null;
-        rs = MySQLDAO.getResultSet("SELECT * FROM laboratorio WHERE idLaboratorio= ?", id);
+        rs = MySQLDAO.getResultSet("SELECT * FROM estacao_trabalho WHERE idEstacaoTrabalho= ?", id);
         try {
             if (rs.next()) {
                 result = true;
@@ -126,5 +129,47 @@ public class EstacaoTrabalhoDAO {
             e.printStackTrace();
         }
         return result;
+    }
+    
+    public ArrayList<EstacaoTrabalhoBEAN> listaEstacaoTrabalhoNome(EstacaoTrabalhoBEAN estacaoTrabalho){
+        
+        ArrayList<EstacaoTrabalhoBEAN> lista = new ArrayList<EstacaoTrabalhoBEAN>();
+        ResultSet rs = null;
+        
+        rs = MySQLDAO.getResultSet("SELECT * FROM estacao_trabalho WHERE descricaoEstacaoTrabalho LIKE '%" + estacaoTrabalho.getDescricaoEstacaoTrabalho() + "%'");
+        try {
+            while (rs.next()) {
+                lista.add(new EstacaoTrabalhoBEAN(rs.getInt("idEstacaoTrabalho"), 
+                                            rs.getString("descricaoEstacaoTrabalho"), 
+                                            rs.getInt("monitor_idEquipamento"),
+                                            rs.getInt("cpu_idEquipamento"),
+                                            rs.getInt("mouseTeclado_idEquipamento")));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lista;
+    }
+    
+    public EstacaoTrabalhoBEAN EstacaoTrabalhoPeloNome(String estacaoTrabalho){
+        
+        EstacaoTrabalhoBEAN lista = new EstacaoTrabalhoBEAN();
+        ResultSet rs = null;
+        
+        rs = MySQLDAO.getResultSet("SELECT * FROM estacao_trabalho WHERE descricaoEstacaoTrabalho LIKE '%" + estacaoTrabalho + "%'");
+        try {
+            while (rs.next()) {
+                new EstacaoTrabalhoBEAN(rs.getInt("idEstacaoTrabalho"), 
+                                            rs.getString("descricaoEstacaoTrabalho"), 
+                                            rs.getInt("monitor_idEquipamento"),
+                                            rs.getInt("cpu_idEquipamento"),
+                                            rs.getInt("mouseTeclado_idEquipamento"));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lista;
     }
 }

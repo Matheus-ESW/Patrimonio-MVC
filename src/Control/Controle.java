@@ -8,6 +8,8 @@ package Control;
 
 import Model.EquipamentoBEAN;
 import Model.EquipamentoDAO;
+import Model.EstacaoTrabalhoBEAN;
+import Model.EstacaoTrabalhoDAO;
 import Model.FornecedorBEAN;
 import Model.FornecedorDAO;
 import Model.LocalizacaoBEAN;
@@ -143,5 +145,54 @@ public class Controle {
     
     public ArrayList<EquipamentoBEAN> listaEquipamentosPorNome(EquipamentoBEAN equipamento) {
         return EquipamentoDAO.getInstance().listaEquipamentoNome(equipamento);
+    }
+    
+    public EquipamentoBEAN equipamentoPeloNome(String equipamento){
+        return EquipamentoDAO.getInstance().equipamentoPeloNome(equipamento);
+    }
+    
+    
+    
+    
+    // CONTROLE EQUIPAMENTO
+   public void addEstacaoTrabalho(EstacaoTrabalhoBEAN estacaoTrabalho) {
+        EstacaoTrabalhoDAO.getInstance().create(estacaoTrabalho);
+    }
+
+    public void updateEstacaoTrabalho(EstacaoTrabalhoBEAN estacaoTrabalho) {
+        EstacaoTrabalhoDAO.getInstance().update(estacaoTrabalho);
+    }
+    
+    /*
+    public void ativarEstacaoTrabalho(EstacaoTrabalhoBEAN estacaoTrabalho) {
+        EstacaoTrabalhoDAO.getInstance().ativarEquipamento(estacaoTrabalho);
+    }
+    
+    public void inativarEstacaoTrabalho(EstacaoTrabalhoBEAN estacaoTrabalho) {
+        EstacaoTrabalhoDAO.getInstance().inativarEquipamento(estacaoTrabalho);
+    }*/
+
+    public EstacaoTrabalhoBEAN findEstacaoTrabalho(int id) {
+        return EstacaoTrabalhoDAO.getInstance().buscaEstacaoTrabalho(id);
+    }
+
+    public int findIdEstacaoTrabalho(EstacaoTrabalhoBEAN estacaoTrabalho) {
+        return EstacaoTrabalhoDAO.getInstance().buscaID(estacaoTrabalho);
+    }
+
+    public Boolean isExistEstacaoTrabalho(int id) {
+        return EstacaoTrabalhoDAO.getInstance().isExist(id);
+    }
+
+    public ArrayList<EstacaoTrabalhoBEAN> listaEstacaoTrabalho() {
+        return EstacaoTrabalhoDAO.getInstance().buscaTodosEstacaoTrabalho();
+    }
+    
+    public ArrayList<EstacaoTrabalhoBEAN> listaEstacaoTrabalhoPorNome(EstacaoTrabalhoBEAN estacaoTrabalho) {
+        return EstacaoTrabalhoDAO.getInstance().listaEstacaoTrabalhoNome(estacaoTrabalho);
+    }
+    
+    public EstacaoTrabalhoBEAN sstacaoTrabalhoPeloNome(String estacaoTrabalho){
+        return EstacaoTrabalhoDAO.getInstance().EstacaoTrabalhoPeloNome(estacaoTrabalho);
     }
 }

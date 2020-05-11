@@ -7,11 +7,14 @@
 package View;
 
 import Control.Controle;
-import Model.FornecedorBEAN;
+import java.awt.Color;
+import java.awt.Component;
 import Model.LocalizacaoBEAN;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 
 /**
  *
@@ -31,6 +34,22 @@ public class LocalizacaoView extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
     }
     
+    DefaultTableCellRenderer renderer = new DefaultTableCellRenderer() {
+    @Override
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+        Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column); 
+
+        String str = (String) value;
+        
+        if ("Inativo".equals(str)) {
+            c.setForeground(Color.RED);
+        } else {
+            c.setForeground(Color.BLACK);
+        }
+        return c;
+    }
+};
+    
     private void atualizaTabela() {
         this.modelo = (javax.swing.table.DefaultTableModel) jTableLocalizacoes.getModel();
 
@@ -42,7 +61,7 @@ public class LocalizacaoView extends javax.swing.JFrame {
 
         jTableLocalizacoes.getColumnModel().getColumn(0).setPreferredWidth(20);
         jTableLocalizacoes.getColumnModel().getColumn(1).setPreferredWidth(300);
-        jTableLocalizacoes.getColumnModel().getColumn(2).setPreferredWidth(100);
+        jTableLocalizacoes.getColumnModel().getColumn(2).setCellRenderer(renderer);
         //tabela.getColumnModel().getColumn(3).setPreferredWidth(500);
 
         modelo.setNumRows(0);

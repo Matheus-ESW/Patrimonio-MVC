@@ -9,9 +9,13 @@ package View;
 import Control.Controle;
 import Model.EquipamentoBEAN;
 import Model.FornecedorBEAN;
+import java.awt.Color;
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 
 /**
  *
@@ -32,6 +36,22 @@ public class EquipamentoView extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
     }
     
+    DefaultTableCellRenderer renderer = new DefaultTableCellRenderer() {
+    @Override
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+        Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column); 
+
+        String str = (String) value;
+        
+        if ("Inativo".equals(str)) {
+            c.setForeground(Color.RED);
+        } else {
+            c.setForeground(Color.BLACK);
+        }
+        return c;
+    }
+};
+    
     private void atualizaTabela() {
         this.modelo = (javax.swing.table.DefaultTableModel) jTableEquipamentos.getModel();
 
@@ -45,7 +65,7 @@ public class EquipamentoView extends javax.swing.JFrame {
         jTableEquipamentos.getColumnModel().getColumn(1).setPreferredWidth(200);
         jTableEquipamentos.getColumnModel().getColumn(2).setPreferredWidth(80);
         jTableEquipamentos.getColumnModel().getColumn(3).setPreferredWidth(80);
-        jTableEquipamentos.getColumnModel().getColumn(4).setPreferredWidth(80);
+        jTableEquipamentos.getColumnModel().getColumn(4).setCellRenderer(renderer);
         //tabela.getColumnModel().getColumn(3).setPreferredWidth(500);
 
         modelo.setNumRows(0);
@@ -197,12 +217,13 @@ public class EquipamentoView extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jTextFieldDescricaoEquipamento)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jCheckBoxInativo, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jTextFieldDescricaoEquipamento, javax.swing.GroupLayout.PREFERRED_SIZE, 570, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jCheckBoxInativo, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -267,7 +288,9 @@ public class EquipamentoView extends javax.swing.JFrame {
     private void listarFornecedores(){
         
         for(FornecedorBEAN fornecedor : controle.listaFornecedores()){
-            jComboBoxFornecedor.addItem(fornecedor.getRazaoSocial());
+            if(!fornecedor.getStatusFornecedor().equals("0")){
+                jComboBoxFornecedor.addItem(fornecedor.getRazaoSocial());
+            }
         }
     }
     
