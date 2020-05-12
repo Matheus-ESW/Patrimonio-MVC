@@ -154,7 +154,7 @@ public class Controle {
     
     
     
-    // CONTROLE EQUIPAMENTO
+    // CONTROLE ESTAÇOES DE TRABALHO
    public void addEstacaoTrabalho(EstacaoTrabalhoBEAN estacaoTrabalho) {
         EstacaoTrabalhoDAO.getInstance().create(estacaoTrabalho);
     }

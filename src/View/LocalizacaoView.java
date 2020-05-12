@@ -168,7 +168,12 @@ public class LocalizacaoView extends javax.swing.JFrame {
             }
         });
 
-        jButtonExcluir.setText("Excluir");
+        jButtonExcluir.setText("Limpar");
+        jButtonExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonExcluirActionPerformed(evt);
+            }
+        });
 
         jButtonCancelar.setText("Cancelar");
         jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -338,6 +343,12 @@ public class LocalizacaoView extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jButtonConsultarActionPerformed
+
+    private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
+        // TODO add your handling code here:
+        
+        limparCampos();
+    }//GEN-LAST:event_jButtonExcluirActionPerformed
 
     /**
      * @param args the command line arguments

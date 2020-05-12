@@ -9,6 +9,7 @@ import Control.Controle;
 import Model.EquipamentoBEAN;
 import Model.EstacaoTrabalhoBEAN;
 import Model.FornecedorBEAN;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -24,7 +25,6 @@ public class EstacaoTrabalhoView extends javax.swing.JFrame {
     javax.swing.table.DefaultTableModel modeloEstacaoTrabalho;
     Controle controle = new Controle();
     int idAlteraEstacaoTrabalho;
-    //int IDsEquipamentos[];
     int cont;
     int contMonitor, contCPU, contTeclado;
     String equipCPU, equipMonitor, equipMouse;
@@ -38,7 +38,6 @@ public class EstacaoTrabalhoView extends javax.swing.JFrame {
         this.atualizaTabela();
         this.atualizaTabelaEstacoesTrabalho();
         this.setLocationRelativeTo(null);
-        //IDsEquipamentos = new int[999];
         cont = 0;
         contMonitor = 0;
         contCPU = 0;
@@ -59,17 +58,16 @@ public class EstacaoTrabalhoView extends javax.swing.JFrame {
         jTableEquipamentosDisponiveis.getColumnModel().getColumn(2).setPreferredWidth(30);
 
         modeloEquipamento.setNumRows(0);
-
-        FornecedorBEAN forn = new FornecedorBEAN();
+        List<EstacaoTrabalhoBEAN> listaEstacoesTrabalho = controle.listaEstacaoTrabalho();
 
         try {
             for (EquipamentoBEAN equipamento : listaEquipamentos) {
 
-                forn = controle.findFornecedor(equipamento.getFornecedor_idFornecedor());
+                FornecedorBEAN forn = controle.findFornecedor(equipamento.getFornecedor_idFornecedor());
 
-                if (equipamento.getStatusEquipamento().equals("1")) {
+                if (equipamento.getStatusEquipamento().equals("1")) {// SE STATUS = 1 ATIVO
                     modeloEquipamento.addRow(new Object[]{equipamento.getDescricaoEquipamento(), equipamento.getTipoEquipamento(),
-                        forn.getRazaoSocial()});
+                                forn.getRazaoSocial()});
                 }
             }
         } catch (Exception erro) {
@@ -88,6 +86,8 @@ public class EstacaoTrabalhoView extends javax.swing.JFrame {
 
         jTableEstacoesTrabalho.getColumnModel().getColumn(0).setPreferredWidth(5);
         jTableEstacoesTrabalho.getColumnModel().getColumn(1).setPreferredWidth(500);
+
+        modeloEstacaoTrabalho.setNumRows(0);
 
         try {
             for (EstacaoTrabalhoBEAN estacao : listaEstacoesTrabalho) {
@@ -183,12 +183,24 @@ public class EstacaoTrabalhoView extends javax.swing.JFrame {
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
         jScrollPane2.setViewportView(jTableEquipamentosEstacao);
+        if (jTableEquipamentosEstacao.getColumnModel().getColumnCount() > 0) {
+            jTableEquipamentosEstacao.getColumnModel().getColumn(0).setResizable(false);
+            jTableEquipamentosEstacao.getColumnModel().getColumn(1).setResizable(false);
+            jTableEquipamentosEstacao.getColumnModel().getColumn(2).setResizable(false);
+        }
 
         jLabel2.setText("Equipamentos Disponiveis");
 
@@ -231,6 +243,11 @@ public class EstacaoTrabalhoView extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTableEstacoesTrabalho.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableEstacoesTrabalhoMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(jTableEstacoesTrabalho);
         if (jTableEstacoesTrabalho.getColumnModel().getColumnCount() > 0) {
             jTableEstacoesTrabalho.getColumnModel().getColumn(0).setResizable(false);
@@ -247,8 +264,18 @@ public class EstacaoTrabalhoView extends javax.swing.JFrame {
         });
 
         jButtonEditar.setText("Editar");
+        jButtonEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEditarActionPerformed(evt);
+            }
+        });
 
-        jButtonExcluir.setText("Excluir");
+        jButtonExcluir.setText("Limpar");
+        jButtonExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonExcluirActionPerformed(evt);
+            }
+        });
 
         jButtonCancelar.setText("Cancelar");
         jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -361,6 +388,21 @@ public class EstacaoTrabalhoView extends javax.swing.JFrame {
     private void jButtonPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPesquisarActionPerformed
         // TODO add your handling code here:
 
+        EstacaoTrabalhoBEAN estacao = new EstacaoTrabalhoBEAN();
+        estacao.setDescricaoEstacaoTrabalho(jTextFieldBusca.getText());
+
+        if (jTextFieldBusca.getText().length() == 0) {
+            System.out.println(" " + jTextFieldBusca.getText().toString());
+            JOptionPane.showMessageDialog(null, "Campo de pesquisa vazio!");
+        } else {
+            ArrayList<EstacaoTrabalhoBEAN> listaEstacaoTrabalho = controle.listaEstacaoTrabalhoPorNome(estacao);
+
+            if (!listaEstacaoTrabalho.isEmpty()) {
+                preencherTabelaEstacoesTrabalho(listaEstacaoTrabalho);
+            } else {
+                JOptionPane.showMessageDialog(null, "Estaçao de trabalho nao encontrada!");
+            }
+        }
     }//GEN-LAST:event_jButtonPesquisarActionPerformed
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
@@ -380,11 +422,8 @@ public class EstacaoTrabalhoView extends javax.swing.JFrame {
         this.modeloEquipamentoEstacao = (javax.swing.table.DefaultTableModel) jTableEquipamentosEstacao.getModel();
 
         int linhaEditora = jTableEquipamentosDisponiveis.getSelectedRow();
-        //String descAux = jTableEquipamentosDisponiveis.getValueAt(linhaEditora, 0).toString();
-
-        //EquipamentoBEAN equipamento = controle.equipamentoPeloNome(descAux);
-        //IDsEquipamentos[cont] = equipamento.getIdEquipamento();
-
+        jButtonRemoverEquipamento.setEnabled(true);
+        
         if (cont <= 0) {
             modeloEquipamentoEstacao.setNumRows(0);
         }
@@ -405,7 +444,7 @@ public class EstacaoTrabalhoView extends javax.swing.JFrame {
                     ((DefaultTableModel) jTableEquipamentosDisponiveis.getModel()).removeRow(jTableEquipamentosDisponiveis.getSelectedRow());
                     contMonitor++;
                 } else {
-                    JOptionPane.showMessageDialog(null, "Nao e possivel inserir mais de um CPU na mesma estaçao!");
+                    JOptionPane.showMessageDialog(null, "Nao e possivel inserir mais de um monitor na mesma estaçao!");
                 }
             } else if (jTableEquipamentosDisponiveis.getValueAt(linhaEditora, 1).toString().equals("CPU")) {
                 if (contCPU < 1) {
@@ -418,7 +457,7 @@ public class EstacaoTrabalhoView extends javax.swing.JFrame {
                     ((DefaultTableModel) jTableEquipamentosDisponiveis.getModel()).removeRow(jTableEquipamentosDisponiveis.getSelectedRow());
                     contCPU++;
                 } else {
-                    JOptionPane.showMessageDialog(null, "Nao e possivel inserir mais de um monitor na mesma estaçao!");
+                    JOptionPane.showMessageDialog(null, "Nao e possivel inserir mais de um CPU na mesma estaçao!");
                 }
             } else if (jTableEquipamentosDisponiveis.getValueAt(linhaEditora, 1).toString().equals("Mouse/Teclado")) {
                 if (contTeclado < 1) {
@@ -438,7 +477,6 @@ public class EstacaoTrabalhoView extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Erro: " + e);
         }
 
-        System.out.println(" " + equipCPU + " - " + equipMonitor + " - " + equipMouse);
         cont++;
     }//GEN-LAST:event_jButtonAdicionarEquipamentoActionPerformed
 
@@ -455,7 +493,6 @@ public class EstacaoTrabalhoView extends javax.swing.JFrame {
 //                IDsEquipamentos[i] = 0;
 //            }
 //        }
-
         try {
             if (jTableEquipamentosEstacao.getValueAt(linhaEditora, 1).toString().equals("CPU")) {
 
@@ -509,8 +546,6 @@ public class EstacaoTrabalhoView extends javax.swing.JFrame {
         monitor = controle.equipamentoPeloNome(equipMonitor);
         mouse = controle.equipamentoPeloNome(equipMouse);
 
-        System.out.println("ID Monitor " + monitor.getIdEquipamento() + " ID CPU " + cpu.getIdEquipamento() + " ID Mouse " + mouse.getIdEquipamento());
-
         controle.addEstacaoTrabalho(new EstacaoTrabalhoBEAN(0, jTextFieldDescricaoEstacaoTrabalho.getText().toString(),
                 monitor.getIdEquipamento(), cpu.getIdEquipamento(), mouse.getIdEquipamento()));
 
@@ -521,6 +556,67 @@ public class EstacaoTrabalhoView extends javax.swing.JFrame {
         atualizaTabelaEstacoesTrabalho();
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
+    private void jButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarActionPerformed
+        // TODO add your handling code here:
+        
+        String isAtivo = "*";
+
+        if (jTextFieldDescricaoEstacaoTrabalho.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Campo de descriçao da estaçao de trabalho vazio");
+            jTextFieldDescricaoEstacaoTrabalho.requestFocus();
+        } else if (jCheckBoxInativo.isSelected()) {
+            isAtivo = "0";
+        } else if (!jCheckBoxInativo.isSelected()) {
+            isAtivo = "1";
+        }
+        
+        EquipamentoBEAN cpu, monitor, mouse = new EquipamentoBEAN();
+        cpu = controle.equipamentoPeloNome(equipCPU);
+        monitor = controle.equipamentoPeloNome(equipMonitor);
+        mouse = controle.equipamentoPeloNome(equipMouse);
+
+        controle.updateEstacaoTrabalho(new EstacaoTrabalhoBEAN(idAlteraEstacaoTrabalho, jTextFieldDescricaoEstacaoTrabalho.getText().toString(),
+                monitor.getIdEquipamento(), cpu.getIdEquipamento(), mouse.getIdEquipamento()));
+
+        JOptionPane.showMessageDialog(null, "Estaçao de trabalho atualizada com sucesso!");
+        zerarContadorApagarNomeEquipamentos();
+        limparCampos();
+        atualizaTabela();
+        atualizaTabelaEstacoesTrabalho();
+    }//GEN-LAST:event_jButtonEditarActionPerformed
+
+    private void jTableEstacoesTrabalhoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableEstacoesTrabalhoMouseClicked
+        // TODO add your handling code here:
+        jButtonRemoverEquipamento.setEnabled(false);
+        this.modeloEquipamentoEstacao = (javax.swing.table.DefaultTableModel) jTableEquipamentosEstacao.getModel();
+        
+        modeloEquipamentoEstacao.setNumRows(0);
+
+        int linhaEditora = jTableEstacoesTrabalho.getSelectedRow();
+        idAlteraEstacaoTrabalho = Integer.parseInt(jTableEstacoesTrabalho.getValueAt(linhaEditora, 0).toString());
+        this.jTextFieldDescricaoEstacaoTrabalho.setText(jTableEstacoesTrabalho.getValueAt(linhaEditora, 1).toString());
+
+        EstacaoTrabalhoBEAN estacaoEscolhida = controle.findEstacaoTrabalho(idAlteraEstacaoTrabalho);
+
+        EquipamentoBEAN cpu, monitor, mouse = new EquipamentoBEAN();
+        FornecedorBEAN fornCPU, fornMonitor, fornMouse = new FornecedorBEAN();
+        cpu = controle.findEquipamento(estacaoEscolhida.getCpu_idEquipamento());
+        fornCPU = controle.findFornecedor(cpu.getFornecedor_idFornecedor());
+        monitor = controle.findEquipamento(estacaoEscolhida.getMonitor_idEquipamento());
+        fornMonitor = controle.findFornecedor(monitor.getFornecedor_idFornecedor());
+        mouse = controle.findEquipamento(estacaoEscolhida.getMouseTeclado_idEquipamento());
+        fornMouse = controle.findFornecedor(mouse.getFornecedor_idFornecedor());
+
+        modeloEquipamentoEstacao.addRow(new Object[]{cpu.getDescricaoEquipamento(), cpu.getTipoEquipamento(), fornCPU.getRazaoSocial()});
+        modeloEquipamentoEstacao.addRow(new Object[]{monitor.getDescricaoEquipamento(), monitor.getTipoEquipamento(), fornMonitor.getRazaoSocial()});
+        modeloEquipamentoEstacao.addRow(new Object[]{mouse.getDescricaoEquipamento(), mouse.getTipoEquipamento(), fornMouse.getRazaoSocial()});
+    }//GEN-LAST:event_jTableEstacoesTrabalhoMouseClicked
+
+    private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
+        // TODO add your handling code here:
+        limparCampos();
+    }//GEN-LAST:event_jButtonExcluirActionPerformed
+
     private void zerarContadorApagarNomeEquipamentos() {
         contCPU = 0;
         equipCPU = "";
@@ -530,14 +626,13 @@ public class EstacaoTrabalhoView extends javax.swing.JFrame {
 
         contTeclado = 0;
         equipMouse = "";
-        modeloEquipamentoEstacao.setNumRows(0);
-        modeloEstacaoTrabalho.setNumRows(0);
     }
 
     private void limparCampos() {
         jTextFieldDescricaoEstacaoTrabalho.setText("");
         jCheckBoxInativo.setSelected(false);
         jTextFieldBusca.setText("");
+        modeloEquipamentoEstacao.setNumRows(0);
     }
 
     /**
