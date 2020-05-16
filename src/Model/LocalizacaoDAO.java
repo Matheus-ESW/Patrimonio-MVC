@@ -143,4 +143,24 @@ public class LocalizacaoDAO {
         }
         return lista;
     }
+    
+    public ArrayList<LocalizacaoBEAN> listaLocalizacaoesInativas(){
+        
+        ArrayList<LocalizacaoBEAN> lista = new ArrayList<LocalizacaoBEAN>();
+        ResultSet rs = null;
+        
+        rs = MySQLDAO.getResultSet("SELECT * FROM localizacao WHERE statusLocalizacao = 0");
+        try {
+            while (rs.next()) {
+                lista.add(new LocalizacaoBEAN(rs.getInt("idLocalizacao"), 
+                                            rs.getString("descricaoLocalizacao"), 
+                                            rs.getString("statusLocalizacao")));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return lista;
+    }
 }

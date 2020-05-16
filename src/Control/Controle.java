@@ -68,6 +68,10 @@ public class Controle {
         return FornecedorDAO.getInstance().fornecedorPeloNome(fornecedor);
     }
     
+    public ArrayList<FornecedorBEAN> listaFornecedoresInativos() {
+        return FornecedorDAO.getInstance().listaFornecedoresInativos();
+    }
+    
     
    
     // CONTROLE LOCALIZAÇAO
@@ -105,6 +109,10 @@ public class Controle {
     
     public ArrayList<LocalizacaoBEAN> listaLocalizacoesPorNome(LocalizacaoBEAN localizacao) {
         return LocalizacaoDAO.getInstance().listaLocalizacaoNome(localizacao);
+    }
+    
+    public ArrayList<LocalizacaoBEAN> listaLocalizacoesInativas() {
+        return LocalizacaoDAO.getInstance().listaLocalizacaoesInativas();
     }
     
         
@@ -149,6 +157,10 @@ public class Controle {
     
     public EquipamentoBEAN equipamentoPeloNome(String equipamento){
         return EquipamentoDAO.getInstance().equipamentoPeloNome(equipamento);
+    }
+    
+    public ArrayList<EquipamentoBEAN> listaEquipamentosInativos() {
+        return EquipamentoDAO.getInstance().listaEquipamentosInativos();
     }
     
     

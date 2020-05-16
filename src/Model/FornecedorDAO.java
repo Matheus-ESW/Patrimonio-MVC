@@ -179,4 +179,23 @@ public class FornecedorDAO {
         }
         return lista;
     }
+    
+    public ArrayList<FornecedorBEAN> listaFornecedoresInativos(){
+        
+        ArrayList<FornecedorBEAN> lista = new ArrayList<FornecedorBEAN>();
+        ResultSet rs = null;
+        
+        rs = MySQLDAO.getResultSet("SELECT * FROM fornecedor WHERE statusFornecedor = 0");
+        try {
+            while (rs.next()) {
+                lista.add(new FornecedorBEAN(rs.getInt("idFornecedor"), 
+                                            rs.getString("razaoSocial"), 
+                                            rs.getString("statusFornecedor")));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lista;
+    }
 }

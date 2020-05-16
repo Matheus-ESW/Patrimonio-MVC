@@ -34,22 +34,22 @@ public class FornecedorView extends javax.swing.JFrame {
         this.atualizaTabela();
         this.setLocationRelativeTo(null);
     }
-    
-    DefaultTableCellRenderer renderer = new DefaultTableCellRenderer() {
-    @Override
-    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-        Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column); 
 
-        String str = (String) value;
-        
-        if ("Inativo".equals(str)) {
-            c.setForeground(Color.RED);
-        } else {
-            c.setForeground(Color.BLACK);
+    DefaultTableCellRenderer renderer = new DefaultTableCellRenderer() {
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+            String str = (String) value;
+
+            if ("Inativo".equals(str)) {
+                c.setForeground(Color.RED);
+            } else {
+                c.setForeground(Color.BLACK);
+            }
+            return c;
         }
-        return c;
-    }
-};
+    };
 
     private void atualizaTabela() {
         this.modelo = (javax.swing.table.DefaultTableModel) jTableFornecedores.getModel();
@@ -72,6 +72,42 @@ public class FornecedorView extends javax.swing.JFrame {
         try {
             for (FornecedorBEAN fornecedor : listaFornecedores) {
 
+                if (fornecedor.getStatusFornecedor().equals("1")) {
+                    if (fornecedor.getStatusFornecedor().equals("0")) {
+                        isAtivo = "Inativo";
+                    } else {
+                        isAtivo = "Ativo";
+                    }
+
+                    modelo.addRow(new Object[]{fornecedor.getIdFornecedor(), fornecedor.getRazaoSocial(), isAtivo});
+                }
+            }
+        } catch (Exception erro) {
+            JOptionPane.showMessageDialog(null, "Erro ao listar dados - " + erro);
+        }
+    }
+
+    private void atualizaTabelaInativos() {
+        this.modelo = (javax.swing.table.DefaultTableModel) jTableFornecedores.getModel();
+
+        List<FornecedorBEAN> listaFornecedores = controle.listaFornecedores();
+        preencherTabelaInativos(listaFornecedores);
+    }
+
+    private void preencherTabelaInativos(List<FornecedorBEAN> listaFornecedores) {
+
+        jTableFornecedores.getColumnModel().getColumn(0).setPreferredWidth(20);
+        jTableFornecedores.getColumnModel().getColumn(1).setPreferredWidth(300);
+        jTableFornecedores.getColumnModel().getColumn(2).setCellRenderer(renderer);
+        //tabela.getColumnModel().getColumn(3).setPreferredWidth(500);
+
+        modelo.setNumRows(0);
+
+        String isAtivo = "*";
+
+        try {
+            for (FornecedorBEAN fornecedor : listaFornecedores) {
+
                 if (fornecedor.getStatusFornecedor().equals("0")) {
                     isAtivo = "Inativo";
                 } else {
@@ -79,6 +115,7 @@ public class FornecedorView extends javax.swing.JFrame {
                 }
 
                 modelo.addRow(new Object[]{fornecedor.getIdFornecedor(), fornecedor.getRazaoSocial(), isAtivo});
+
             }
         } catch (Exception erro) {
             JOptionPane.showMessageDialog(null, "Erro ao listar dados - " + erro);
@@ -105,6 +142,7 @@ public class FornecedorView extends javax.swing.JFrame {
         jButtonCancelar = new javax.swing.JButton();
         jTextFieldBusca = new javax.swing.JTextField();
         jButtonConsultar = new javax.swing.JButton();
+        jCheckBoxMostrarInativos = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -185,24 +223,26 @@ public class FornecedorView extends javax.swing.JFrame {
             }
         });
 
+        jCheckBoxMostrarInativos.setText("Mostrar Inativos");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTextFieldRazaoSocial, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jCheckBoxInativo, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jTextFieldRazaoSocial, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap())))
+                            .addComponent(jCheckBoxInativo, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jCheckBoxMostrarInativos))))
+                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(35, 35, 35)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -228,8 +268,10 @@ public class FornecedorView extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldRazaoSocial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jCheckBoxInativo))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jCheckBoxMostrarInativos)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonSalvar)
@@ -324,15 +366,25 @@ public class FornecedorView extends javax.swing.JFrame {
         FornecedorBEAN forn = new FornecedorBEAN();
         forn.setRazaoSocial(jTextFieldBusca.getText());
 
-        if (jTextFieldBusca.getText().length() == 0) {
-            JOptionPane.showMessageDialog(null, "Campo de pesquisa vazio!");
-        } else {
-            ArrayList<FornecedorBEAN> listaFornecedor = controle.listaFornecedoresPorNome(forn);
+        if (jCheckBoxMostrarInativos.isSelected()) {
+            ArrayList<FornecedorBEAN> listaFornecedoresInativos = controle.listaFornecedoresInativos();
 
-            if (!listaFornecedor.isEmpty()) {
-                preencherTabela(listaFornecedor);
+            if (!listaFornecedoresInativos.isEmpty()) {
+                preencherTabelaInativos(listaFornecedoresInativos);
             } else {
                 JOptionPane.showMessageDialog(null, "Fornecedor nao encontrado!");
+            }
+        } else {
+            if (jTextFieldBusca.getText().length() == 0) {
+                JOptionPane.showMessageDialog(null, "Campo de pesquisa vazio!");
+            } else {
+                ArrayList<FornecedorBEAN> listaFornecedor = controle.listaFornecedoresPorNome(forn);
+
+                if (!listaFornecedor.isEmpty()) {
+                    preencherTabela(listaFornecedor);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Fornecedor nao encontrado!");
+                }
             }
         }
     }//GEN-LAST:event_jButtonConsultarActionPerformed
@@ -384,6 +436,7 @@ public class FornecedorView extends javax.swing.JFrame {
     private javax.swing.JButton jButtonExcluir;
     private javax.swing.JButton jButtonSalvar;
     private javax.swing.JCheckBox jCheckBoxInativo;
+    private javax.swing.JCheckBox jCheckBoxMostrarInativos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableFornecedores;

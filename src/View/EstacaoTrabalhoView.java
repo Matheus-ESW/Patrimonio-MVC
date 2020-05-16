@@ -67,7 +67,7 @@ public class EstacaoTrabalhoView extends javax.swing.JFrame {
 
                 if (equipamento.getStatusEquipamento().equals("1")) {// SE STATUS = 1 ATIVO
                     modeloEquipamento.addRow(new Object[]{equipamento.getDescricaoEquipamento(), equipamento.getTipoEquipamento(),
-                                forn.getRazaoSocial()});
+                        forn.getRazaoSocial()});
                 }
             }
         } catch (Exception erro) {
@@ -110,7 +110,6 @@ public class EstacaoTrabalhoView extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jTextFieldDescricaoEstacaoTrabalho = new javax.swing.JTextField();
-        jCheckBoxInativo = new javax.swing.JCheckBox();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableEquipamentosDisponiveis = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -131,8 +130,6 @@ public class EstacaoTrabalhoView extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("Descriçao Estaçao de Trabalho");
-
-        jCheckBoxInativo.setText("Inativo");
 
         jTableEquipamentosDisponiveis.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -319,13 +316,9 @@ public class EstacaoTrabalhoView extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane3)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jTextFieldDescricaoEstacaoTrabalho, javax.swing.GroupLayout.PREFERRED_SIZE, 570, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jCheckBoxInativo)))
-                                .addGap(0, 2, Short.MAX_VALUE)))
+                                .addComponent(jLabel1)
+                                .addGap(0, 443, Short.MAX_VALUE))
+                            .addComponent(jTextFieldDescricaoEstacaoTrabalho))
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addGap(62, 62, 62)
@@ -351,9 +344,7 @@ public class EstacaoTrabalhoView extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextFieldDescricaoEstacaoTrabalho, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCheckBoxInativo))
+                        .addComponent(jTextFieldDescricaoEstacaoTrabalho, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
@@ -423,7 +414,7 @@ public class EstacaoTrabalhoView extends javax.swing.JFrame {
 
         int linhaEditora = jTableEquipamentosDisponiveis.getSelectedRow();
         jButtonRemoverEquipamento.setEnabled(true);
-        
+
         if (cont <= 0) {
             modeloEquipamentoEstacao.setNumRows(0);
         }
@@ -535,10 +526,6 @@ public class EstacaoTrabalhoView extends javax.swing.JFrame {
         if (jTextFieldDescricaoEstacaoTrabalho.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Campo de descriçao da estaçao de trabalho vazio");
             jTextFieldDescricaoEstacaoTrabalho.requestFocus();
-        } else if (jCheckBoxInativo.isSelected()) {
-            isAtivo = "0";
-        } else if (!jCheckBoxInativo.isSelected()) {
-            isAtivo = "1";
         }
 
         EquipamentoBEAN cpu, monitor, mouse = new EquipamentoBEAN();
@@ -558,18 +545,14 @@ public class EstacaoTrabalhoView extends javax.swing.JFrame {
 
     private void jButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarActionPerformed
         // TODO add your handling code here:
-        
+
         String isAtivo = "*";
 
         if (jTextFieldDescricaoEstacaoTrabalho.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Campo de descriçao da estaçao de trabalho vazio");
             jTextFieldDescricaoEstacaoTrabalho.requestFocus();
-        } else if (jCheckBoxInativo.isSelected()) {
-            isAtivo = "0";
-        } else if (!jCheckBoxInativo.isSelected()) {
-            isAtivo = "1";
         }
-        
+
         EquipamentoBEAN cpu, monitor, mouse = new EquipamentoBEAN();
         cpu = controle.equipamentoPeloNome(equipCPU);
         monitor = controle.equipamentoPeloNome(equipMonitor);
@@ -589,7 +572,7 @@ public class EstacaoTrabalhoView extends javax.swing.JFrame {
         // TODO add your handling code here:
         jButtonRemoverEquipamento.setEnabled(false);
         this.modeloEquipamentoEstacao = (javax.swing.table.DefaultTableModel) jTableEquipamentosEstacao.getModel();
-        
+
         modeloEquipamentoEstacao.setNumRows(0);
 
         int linhaEditora = jTableEstacoesTrabalho.getSelectedRow();
@@ -630,7 +613,6 @@ public class EstacaoTrabalhoView extends javax.swing.JFrame {
 
     private void limparCampos() {
         jTextFieldDescricaoEstacaoTrabalho.setText("");
-        jCheckBoxInativo.setSelected(false);
         jTextFieldBusca.setText("");
         modeloEquipamentoEstacao.setNumRows(0);
     }
@@ -678,7 +660,6 @@ public class EstacaoTrabalhoView extends javax.swing.JFrame {
     private javax.swing.JButton jButtonPesquisar;
     private javax.swing.JButton jButtonRemoverEquipamento;
     private javax.swing.JButton jButtonSalvar;
-    private javax.swing.JCheckBox jCheckBoxInativo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

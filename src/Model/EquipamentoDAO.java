@@ -168,4 +168,25 @@ public class EquipamentoDAO {
         
         return lista;
     }
+    
+    public ArrayList<EquipamentoBEAN> listaEquipamentosInativos(){
+        
+        ArrayList<EquipamentoBEAN> lista = new ArrayList<EquipamentoBEAN>();
+        ResultSet rs = null;
+        
+        rs = MySQLDAO.getResultSet("SELECT * FROM equipamento WHERE statusEquipamento = 0");
+        try {
+            while (rs.next()) {
+                lista.add(new EquipamentoBEAN(rs.getInt("idEquipamento"), 
+                                            rs.getString("tipoEquipamento"), 
+                                            rs.getString("descricaoEquipamento"),
+                                            rs.getString("statusEquipamento"),
+                                            rs.getInt("fornecedor_idFornecedor")));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lista;
+    }
 }
