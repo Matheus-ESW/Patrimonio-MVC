@@ -6,6 +6,8 @@
 
 package Model;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Matheus Ramos
@@ -17,15 +19,27 @@ public class LaboratorioBEAN {
     private int numeroEquipamento;
     private String statusLaboratorio;
     private int localizacao_idLocalizacao;
+    private ArrayList<Integer> listaEstacoes;
 
     public LaboratorioBEAN() {}
-
-    public LaboratorioBEAN(int idLaboratorio, String descricaoLaboratorio, int numeroEquipamento, String statusLaboratorio, int localizacao_idLocalizacao) {
+    
+    public LaboratorioBEAN(int idLaboratorio, String descricaoLaboratorio, int numeroEquipamento, String statusLaboratorio,
+            int localizacao_idLocalizacao) {
         this.idLaboratorio = idLaboratorio;
         this.descricaoLaboratorio = descricaoLaboratorio;
         this.numeroEquipamento = numeroEquipamento;
         this.statusLaboratorio = statusLaboratorio;
         this.localizacao_idLocalizacao = localizacao_idLocalizacao;
+    }
+
+    public LaboratorioBEAN(int idLaboratorio, String descricaoLaboratorio, int numeroEquipamento, String statusLaboratorio,
+            int localizacao_idLocalizacao, ArrayList<Integer> listaEstacoes) {
+        this.idLaboratorio = idLaboratorio;
+        this.descricaoLaboratorio = descricaoLaboratorio;
+        this.numeroEquipamento = numeroEquipamento;
+        this.statusLaboratorio = statusLaboratorio;
+        this.localizacao_idLocalizacao = localizacao_idLocalizacao;
+        this.listaEstacoes = new ArrayList<Integer>();
     }
     
     public int getIdLaboratorio() {
@@ -60,11 +74,19 @@ public class LaboratorioBEAN {
         this.statusLaboratorio = statusLaboratorio;
     }
 
+    public ArrayList<Integer> getListaEstacoes() {
+        return listaEstacoes;
+    }
+
+    public void setListaEstacoes(ArrayList<Integer> listaEstacoes) {
+        this.listaEstacoes = listaEstacoes;
+    }
+
     public int getLocalizacao_idLocalizacao() {
         return localizacao_idLocalizacao;
     }
 
     public void setLocalizacao_idLocalizacao(int localizacao_idLocalizacao) {
         this.localizacao_idLocalizacao = localizacao_idLocalizacao;
-    } 
+    }
 }

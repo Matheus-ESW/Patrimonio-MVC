@@ -291,7 +291,9 @@ public class FornecedorView extends javax.swing.JFrame {
     private void limparCampos() {
         jTextFieldRazaoSocial.setText("");
         jCheckBoxInativo.setSelected(false);
+        jCheckBoxMostrarInativos.setSelected(false);
         jTextFieldBusca.setText("");
+        atualizaTabela();
     }
 
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed

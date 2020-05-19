@@ -163,4 +163,23 @@ public class LocalizacaoDAO {
         
         return lista;
     }
+    
+    public LocalizacaoBEAN localizacaoDaCombo(LocalizacaoBEAN local){
+        
+        LocalizacaoBEAN lista = new LocalizacaoBEAN();
+        ResultSet rs = null;
+        
+        rs = MySQLDAO.getResultSet("SELECT * FROM localizacao WHERE descricaoLocalizacao LIKE '%" + local.getDescricaoLocalizacao()+ "%'");
+        try {
+            while (rs.next()) {
+                lista = (new LocalizacaoBEAN(rs.getInt("idLocalizacao"), 
+                                            rs.getString("descricaoLocalizacao"), 
+                                            rs.getString("statusLocalizacao")));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lista;
+    }
 }

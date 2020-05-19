@@ -12,6 +12,8 @@ import Model.EstacaoTrabalhoBEAN;
 import Model.EstacaoTrabalhoDAO;
 import Model.FornecedorBEAN;
 import Model.FornecedorDAO;
+import Model.LaboratorioBEAN;
+import Model.LaboratorioDAO;
 import Model.LocalizacaoBEAN;
 import Model.LocalizacaoDAO;
 import java.util.ArrayList;
@@ -115,6 +117,10 @@ public class Controle {
         return LocalizacaoDAO.getInstance().listaLocalizacaoesInativas();
     }
     
+    public LocalizacaoBEAN localizacaoDaCombo(LocalizacaoBEAN local){
+        return LocalizacaoDAO.getInstance().localizacaoDaCombo(local);
+    }
+    
         
     
     
@@ -167,7 +173,7 @@ public class Controle {
     
     
     // CONTROLE ESTAÇOES DE TRABALHO
-   public void addEstacaoTrabalho(EstacaoTrabalhoBEAN estacaoTrabalho) {
+    public void addEstacaoTrabalho(EstacaoTrabalhoBEAN estacaoTrabalho) {
         EstacaoTrabalhoDAO.getInstance().create(estacaoTrabalho);
     }
 
@@ -206,5 +212,25 @@ public class Controle {
     
     public EstacaoTrabalhoBEAN sstacaoTrabalhoPeloNome(String estacaoTrabalho){
         return EstacaoTrabalhoDAO.getInstance().EstacaoTrabalhoPeloNome(estacaoTrabalho);
+    }
+    
+    
+    
+    
+    // CONTROLE LABORATORIOS
+    public void addLaboratorio(LaboratorioBEAN laboratorio) {
+        LaboratorioDAO.getInstance().create(laboratorio);
+    }
+    
+    public ArrayList<LaboratorioBEAN> buscaTodosLaboratorios() {
+        return LaboratorioDAO.getInstance().buscaTodosLaboratorios();
+    }
+    
+    public ArrayList<LaboratorioBEAN> listaLaboratoriosInativos() {
+        return LaboratorioDAO.getInstance().listaLaboratoriosInativos();
+    }
+    
+    public ArrayList<LaboratorioBEAN> listaLaboratorioPorNome(LaboratorioBEAN laboratorio) {
+        return LaboratorioDAO.getInstance().listaLaboratorioNome(laboratorio);
     }
 }

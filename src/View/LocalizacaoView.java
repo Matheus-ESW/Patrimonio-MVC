@@ -301,7 +301,9 @@ public class LocalizacaoView extends javax.swing.JFrame {
     private void limparCampos() {
         jTextFieldDescricaoLocalizacao.setText("");
         jCheckBoxInativo.setSelected(false);
+        jCheckBoxMostrarInativos.setSelected(false);
         jTextFieldBusca.setText("");
+        atualizaTabela();
     }
 
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
@@ -404,7 +406,6 @@ public class LocalizacaoView extends javax.swing.JFrame {
 
     private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
         // TODO add your handling code here:
-
         limparCampos();
     }//GEN-LAST:event_jButtonExcluirActionPerformed
 

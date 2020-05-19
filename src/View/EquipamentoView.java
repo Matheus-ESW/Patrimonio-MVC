@@ -346,9 +346,11 @@ public class EquipamentoView extends javax.swing.JFrame {
     private void limparCampos() {
         jTextFieldDescricaoEquipamento.setText("");
         jCheckBoxInativo.setSelected(false);
+        jCheckBoxMostrarInativos.setSelected(false);
         jComboBoxTipo.setSelectedIndex(0);
         jComboBoxFornecedor.setSelectedIndex(0);
         jTextFieldBusca.setText("");
+        atualizaTabela();
     }
 
     private void jCheckBoxInativoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxInativoActionPerformed

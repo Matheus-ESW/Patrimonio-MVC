@@ -126,4 +126,46 @@ public class LaboratorioDAO {
         }
         return result;
     }
+    
+    public ArrayList<LaboratorioBEAN> listaLaboratoriosInativos(){
+        
+        ArrayList<LaboratorioBEAN> lista = new ArrayList<LaboratorioBEAN>();
+        ResultSet rs = null;
+        
+        rs = MySQLDAO.getResultSet("SELECT * FROM laboratorio WHERE statusLaboratorio = 0");
+        try {
+            while (rs.next()) {
+                lista.add(new LaboratorioBEAN(rs.getInt("idLaboratorio"), 
+                                            rs.getString("descricaoLaboratorio"), 
+                                            rs.getInt("numeroEquipamento"),
+                                            rs.getString("statusLaboratorio"),
+                                            rs.getInt("localizacao_idLocalizacao")));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lista;
+    }
+    
+    public ArrayList<LaboratorioBEAN> listaLaboratorioNome(LaboratorioBEAN laboratorio){
+        
+        ArrayList<LaboratorioBEAN> lista = new ArrayList<LaboratorioBEAN>();
+        ResultSet rs = null;
+        
+        rs = MySQLDAO.getResultSet("SELECT * FROM laboratorio WHERE descricaoLaboratorio LIKE '%" + laboratorio.getDescricaoLaboratorio() + "%'");
+        try {
+            while (rs.next()) {
+                lista.add(new LaboratorioBEAN(rs.getInt("idLaboratorio"), 
+                                            rs.getString("descricaoLaboratorio"), 
+                                            rs.getInt("numeroEquipamento"),
+                                            rs.getString("statusLaboratorio"),
+                                            rs.getInt("localizacao_idLocalizacao")));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lista;
+    }
 }
