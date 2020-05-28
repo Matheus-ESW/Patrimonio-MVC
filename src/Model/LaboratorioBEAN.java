@@ -19,7 +19,7 @@ public class LaboratorioBEAN {
     private int numeroEquipamento;
     private String statusLaboratorio;
     private int localizacao_idLocalizacao;
-    private ArrayList<Integer> listaEstacoes;
+    private ArrayList<AuxLaboratorioEstacaoBEAN> listaEstacoes;
 
     public LaboratorioBEAN() {}
     
@@ -33,13 +33,13 @@ public class LaboratorioBEAN {
     }
 
     public LaboratorioBEAN(int idLaboratorio, String descricaoLaboratorio, int numeroEquipamento, String statusLaboratorio,
-            int localizacao_idLocalizacao, ArrayList<Integer> listaEstacoes) {
+            int localizacao_idLocalizacao, ArrayList<AuxLaboratorioEstacaoBEAN> listaEstacoes) {
         this.idLaboratorio = idLaboratorio;
         this.descricaoLaboratorio = descricaoLaboratorio;
         this.numeroEquipamento = numeroEquipamento;
         this.statusLaboratorio = statusLaboratorio;
         this.localizacao_idLocalizacao = localizacao_idLocalizacao;
-        this.listaEstacoes = new ArrayList<Integer>();
+        this.listaEstacoes = new ArrayList<AuxLaboratorioEstacaoBEAN>();
     }
     
     public int getIdLaboratorio() {
@@ -74,11 +74,11 @@ public class LaboratorioBEAN {
         this.statusLaboratorio = statusLaboratorio;
     }
 
-    public ArrayList<Integer> getListaEstacoes() {
+    public ArrayList<AuxLaboratorioEstacaoBEAN> getListaEstacoes() {
         return listaEstacoes;
     }
 
-    public void setListaEstacoes(ArrayList<Integer> listaEstacoes) {
+    public void setListaEstacoes(ArrayList<AuxLaboratorioEstacaoBEAN> listaEstacoes) {
         this.listaEstacoes = listaEstacoes;
     }
 

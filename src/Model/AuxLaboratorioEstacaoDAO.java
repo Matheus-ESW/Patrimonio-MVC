@@ -29,21 +29,20 @@ public class AuxLaboratorioEstacaoDAO {
         return instance;
     }
 
-    public long create(int maximo, int aluno) {
-        String query = "INSERT INTO laboratorio_has_estacao_trabalho(estacao_trabalho_idEstacaoTrabalho, laboratorio_IdLaboratorio)"
+    public long create(AuxLaboratorioEstacaoBEAN aux) {
+        String query = "INSERT INTO laboratorio_has_estacao_trabalho(laboratorio_IdLaboratorio, estacao_trabalho_idEstacaoTrabalho) "
                 + " VALUES (?,?)";
-        return MySQLDAO.executeQuery(query, aluno, maximo);
+        return MySQLDAO.executeQuery(query, aux.getLaboratorio_IdLaboratorio(), aux.getEstacao_trabalho_idEstacaoTrabalho());
 
     }
 
     public void update(AuxLaboratorioEstacaoBEAN aux) {
-        String query = "UPDATE laboratorio_has_estacao_trabalho SET estacao_trabalho_idEstacaoTrabalho=?, laboratorio_IdLaboratorio=? ";
-                //+ "WHERE codigo_aluno = ?";
-        MySQLDAO.executeQuery(query, aux.getEstacao_trabalho_idEstacaoTrabalho(), aux.getLaboratorio_IdLaboratorio());
+        String query = "UPDATE laboratorio_has_estacao_trabalho SET laboratorio_IdLaboratorio=?, estacao_trabalho_idEstacaoTrabalho=? ";
+        MySQLDAO.executeQuery(query, aux.getLaboratorio_IdLaboratorio(), aux.getEstacao_trabalho_idEstacaoTrabalho());
     }
 
-    public void delete(AuxLaboratorioEstacaoBEAN aux) {
-        //MySQLDAO.executeQuery("DELETE FROM professor WHERE codigo_professor = ?", prof.getCodigo_professor());
+    public void delete(int id) {
+        MySQLDAO.executeQuery("DELETE FROM laboratorio_has_estacao_trabalho WHERE laboratorio_IdLaboratorio = ?", id);
         //MySQLDAO.executeQuery("UPDATE aluno SET status_aluno = " + DESATIVADO + " "
           //      + "WHERE codigo_aluno = ?", aluno.getCodigo_aluno());
     }
@@ -58,7 +57,7 @@ public class AuxLaboratorioEstacaoDAO {
         rs = MySQLDAO.getResultSet(query);
         try {
             while (rs.next()) {
-                lista.add(new AuxLaboratorioEstacaoBEAN(rs.getInt("laboratorio_IdLaboratorio"),//fk_codigo_aluno, fk_codigo_turma
+                lista.add(new AuxLaboratorioEstacaoBEAN(rs.getInt("laboratorio_IdLaboratorio"),
                         rs.getInt("estacao_trabalho_idEstacaoTrabalho")));
             }
             rs.close();

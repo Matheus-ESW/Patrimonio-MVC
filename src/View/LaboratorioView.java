@@ -6,9 +6,11 @@
 package View;
 
 import Control.Controle;
+import Model.AuxLaboratorioEstacaoBEAN;
 import Model.EstacaoTrabalhoBEAN;
 import Model.LaboratorioBEAN;
 import Model.LocalizacaoBEAN;
+import Model.MySQLDAO;
 import java.awt.Color;
 import java.awt.Component;
 import java.util.ArrayList;
@@ -16,6 +18,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -24,9 +27,13 @@ import javax.swing.table.DefaultTableCellRenderer;
 public class LaboratorioView extends javax.swing.JFrame {
 
     javax.swing.table.DefaultTableModel modeloEstacoesDisponiveis;
+    javax.swing.table.DefaultTableModel modeloEstacoesLaboratorio;
     javax.swing.table.DefaultTableModel modeloLaboratorios;
     Controle controle = new Controle();
+    ArrayList<AuxLaboratorioEstacaoBEAN> listaLaboratoriosEstacao = new ArrayList<>();
     int idAlteraLaboratorio;
+    int contEstacoes = 0;
+    long ultimoLabInserido;
 
     /**
      * Creates new form LaboratorioView
@@ -237,6 +244,11 @@ public class LaboratorioView extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTableLaboratorios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableLaboratoriosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTableLaboratorios);
         if (jTableLaboratorios.getColumnModel().getColumnCount() > 0) {
             jTableLaboratorios.getColumnModel().getColumn(0).setResizable(false);
@@ -259,6 +271,11 @@ public class LaboratorioView extends javax.swing.JFrame {
         });
 
         jButtonEditar.setText("Editar");
+        jButtonEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEditarActionPerformed(evt);
+            }
+        });
 
         jButtonLimpar.setText("Limpar");
         jButtonLimpar.addActionListener(new java.awt.event.ActionListener() {
@@ -484,10 +501,55 @@ public class LaboratorioView extends javax.swing.JFrame {
 
     private void jButtonAdicionarEstacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAdicionarEstacaoActionPerformed
         // TODO add your handling code here:
+
+        this.modeloEstacoesLaboratorio = (javax.swing.table.DefaultTableModel) jTableEstacoesLaboratorio.getModel();
+
+        if (contEstacoes <= 0) {
+            modeloEstacoesLaboratorio.setNumRows(0);
+        }
+
+        int linhaEditora = jTableEstacoesDisponiveis.getSelectedRow();
+        jButtonRemoverEstacao.setEnabled(true);
+
+        jTableEstacoesLaboratorio.getColumnModel().getColumn(0).setPreferredWidth(10);
+        jTableEstacoesLaboratorio.getColumnModel().getColumn(1).setPreferredWidth(200);
+
+        if (jTextFieldNumeroEstacoesTrabalho.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Informe a quantidade de estaçoes do laboratorio");
+            jTextFieldNumeroEstacoesTrabalho.requestFocus();
+        } else {
+            if (contEstacoes < Integer.parseInt(jTextFieldNumeroEstacoesTrabalho.getText())) {
+
+                listaLaboratoriosEstacao.add(new AuxLaboratorioEstacaoBEAN(ultimoLabInserido,
+                        Integer.parseInt(jTableEstacoesDisponiveis.getValueAt(linhaEditora, 0).toString())));
+
+                modeloEstacoesLaboratorio.addRow(new Object[]{jTableEstacoesDisponiveis.getValueAt(linhaEditora, 0).toString(),
+                    jTableEstacoesDisponiveis.getValueAt(linhaEditora, 1).toString()});
+
+                ((DefaultTableModel) jTableEstacoesDisponiveis.getModel()).removeRow(jTableEstacoesDisponiveis.getSelectedRow());
+                contEstacoes++;
+            } else {
+                JOptionPane.showMessageDialog(null, "Numero maximo de estaçoes do laboratorio alcançado");
+            }
+        }
     }//GEN-LAST:event_jButtonAdicionarEstacaoActionPerformed
 
     private void jButtonRemoverEstacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoverEstacaoActionPerformed
         // TODO add your handling code here:
+
+        this.modeloEstacoesLaboratorio = (javax.swing.table.DefaultTableModel) jTableEstacoesLaboratorio.getModel();
+
+        int linhaEditora = jTableEstacoesLaboratorio.getSelectedRow();
+        jButtonRemoverEstacao.setEnabled(true);
+
+        jTableEstacoesLaboratorio.getColumnModel().getColumn(0).setPreferredWidth(10);
+        jTableEstacoesLaboratorio.getColumnModel().getColumn(1).setPreferredWidth(200);
+
+        modeloEstacoesDisponiveis.addRow(new Object[]{jTableEstacoesLaboratorio.getValueAt(linhaEditora, 0).toString(),
+            jTableEstacoesLaboratorio.getValueAt(linhaEditora, 1).toString()});
+
+        ((DefaultTableModel) jTableEstacoesLaboratorio.getModel()).removeRow(jTableEstacoesLaboratorio.getSelectedRow());
+        contEstacoes--;
     }//GEN-LAST:event_jButtonRemoverEstacaoActionPerformed
 
     private void jCheckBoxInativoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxInativoActionPerformed
@@ -515,11 +577,19 @@ public class LaboratorioView extends javax.swing.JFrame {
         local.setDescricaoLocalizacao(jComboBoxLocalizacao.getSelectedItem().toString());
         local = controle.localizacaoDaCombo(local);
 
-        controle.addLaboratorio(new LaboratorioBEAN(0, jTextFieldDescricaoLaboratorio.getText(),
+        ultimoLabInserido = controle.addLaboratorio(new LaboratorioBEAN(0, jTextFieldDescricaoLaboratorio.getText(),
                 Integer.parseInt(jTextFieldNumeroEstacoesTrabalho.getText()), isAtivo, local.getIdLocalizacao()));
+
+        for (int i = 0; i < listaLaboratoriosEstacao.size(); i++) {
+            controle.addAuxiliarLabEstacao(new AuxLaboratorioEstacaoBEAN(ultimoLabInserido,
+                    listaLaboratoriosEstacao.get(i).getEstacao_trabalho_idEstacaoTrabalho()));
+        }
+
         JOptionPane.showMessageDialog(null, "Laboratorio cadastrado com sucesso!");
         limparCampos();
         atualizaTabelaLaboratorios();
+        atualizaTabelaEstacoesDisponiveis();
+        modeloEstacoesLaboratorio.setNumRows(0);
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
     private void jButtonPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPesquisarActionPerformed
@@ -556,6 +626,69 @@ public class LaboratorioView extends javax.swing.JFrame {
         limparCampos();
     }//GEN-LAST:event_jButtonLimparActionPerformed
 
+    private void jTableLaboratoriosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableLaboratoriosMouseClicked
+        // TODO add your handling code here:
+        jButtonRemoverEstacao.setEnabled(false);
+        this.modeloEstacoesLaboratorio = (javax.swing.table.DefaultTableModel) jTableEstacoesLaboratorio.getModel();
+
+        modeloEstacoesLaboratorio.setNumRows(0);
+
+        int linhaEditora = jTableLaboratorios.getSelectedRow();
+
+        idAlteraLaboratorio = Integer.parseInt(jTableLaboratorios.getValueAt(linhaEditora, 0).toString());
+        this.jTextFieldDescricaoLaboratorio.setText(jTableLaboratorios.getValueAt(linhaEditora, 1).toString());
+        this.jTextFieldNumeroEstacoesTrabalho.setText(jTableLaboratorios.getValueAt(linhaEditora, 2).toString());
+
+        if (jTableLaboratorios.getValueAt(linhaEditora, 3).toString().equals("Inativo")) {
+            jCheckBoxInativo.setSelected(true);
+        } else {
+            jCheckBoxInativo.setSelected(false);
+        }
+
+        String local = jTableLaboratorios.getValueAt(linhaEditora, 4).toString();
+        jComboBoxLocalizacao.setSelectedItem(local);
+
+        ArrayList<AuxLaboratorioEstacaoBEAN> listaEstacoesAux = new ArrayList<>();
+        listaEstacoesAux = controle.buscaTodosAuxiliares(idAlteraLaboratorio);
+
+        for (int i = 0; i < listaEstacoesAux.size(); i++) {
+            EstacaoTrabalhoBEAN estacao = controle.findEstacaoTrabalho(listaEstacoesAux.get(i).getEstacao_trabalho_idEstacaoTrabalho());
+            modeloEstacoesLaboratorio.addRow(new Object[]{estacao.getIdEstacaoTrabalho(), estacao.getDescricaoEstacaoTrabalho()});
+        }
+    }//GEN-LAST:event_jTableLaboratoriosMouseClicked
+
+    private void jButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarActionPerformed
+        // TODO add your handling code here:
+
+        String isAtivo = "*";
+
+        LocalizacaoBEAN local = new LocalizacaoBEAN();
+        local.setDescricaoLocalizacao(jComboBoxLocalizacao.getSelectedItem().toString());
+        local = controle.localizacaoDaCombo(local);
+
+        if (jCheckBoxInativo.isSelected()) {
+            isAtivo = "0";
+        } else if (!jCheckBoxInativo.isSelected()) {
+            isAtivo = "1";
+        }
+
+        controle.updateLoboratorio(new LaboratorioBEAN(idAlteraLaboratorio, jTextFieldDescricaoLaboratorio.getText(),
+                Integer.parseInt(jTextFieldNumeroEstacoesTrabalho.getText()), isAtivo, local.getIdLocalizacao()));
+
+        if (controle.isExist(idAlteraLaboratorio)) {
+            controle.deleteAuxiliarEstacao(idAlteraLaboratorio);
+
+            for (int i = 0; i < listaLaboratoriosEstacao.size(); i++) {
+                controle.addAuxiliarLabEstacao(new AuxLaboratorioEstacaoBEAN(idAlteraLaboratorio,
+                        listaLaboratoriosEstacao.get(i).getEstacao_trabalho_idEstacaoTrabalho()));
+            }
+        }
+
+        JOptionPane.showMessageDialog(null, "Laboratorio alterado com sucesso!");
+        limparCampos();
+        atualizaTabelaLaboratorios();
+    }//GEN-LAST:event_jButtonEditarActionPerformed
+
     private void limparCampos() {
         jTextFieldDescricaoLaboratorio.setText("");
         jTextFieldNumeroEstacoesTrabalho.setText("");
@@ -563,7 +696,12 @@ public class LaboratorioView extends javax.swing.JFrame {
         jComboBoxLocalizacao.setSelectedIndex(0);
         jTextFieldBusca.setText("");
         jCheckBoxMostrarInativos.setSelected(false);
+        modeloEstacoesLaboratorio.setNumRows(0);
+        listaLaboratoriosEstacao.clear();
+        idAlteraLaboratorio = 0;
+        contEstacoes = 0;
         atualizaTabelaLaboratorios();
+        atualizaTabelaEstacoesDisponiveis();
     }
 
     /**

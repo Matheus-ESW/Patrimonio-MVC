@@ -12,19 +12,19 @@ package Model;
  */
 public class AuxLaboratorioEstacaoBEAN {
 
-    private int laboratorio_IdLaboratorio;
+    private long laboratorio_IdLaboratorio;
     private int estacao_trabalho_idEstacaoTrabalho;
 
-    public AuxLaboratorioEstacaoBEAN(int laboratorio_IdLaboratorio, int estacao_trabalho_idEstacaoTrabalho) {
+    public AuxLaboratorioEstacaoBEAN(long laboratorio_IdLaboratorio, int estacao_trabalho_idEstacaoTrabalho) {
         this.laboratorio_IdLaboratorio = laboratorio_IdLaboratorio;
         this.estacao_trabalho_idEstacaoTrabalho = estacao_trabalho_idEstacaoTrabalho;
     }
     
-    public int getLaboratorio_IdLaboratorio() {
+    public long getLaboratorio_IdLaboratorio() {
         return laboratorio_IdLaboratorio;
     }
 
-    public void setLaboratorio_IdLaboratorio(int laboratorio_IdLaboratorio) {
+    public void setLaboratorio_IdLaboratorio(long laboratorio_IdLaboratorio) {
         this.laboratorio_IdLaboratorio = laboratorio_IdLaboratorio;
     }
 

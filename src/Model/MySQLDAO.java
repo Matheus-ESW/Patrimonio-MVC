@@ -9,7 +9,6 @@ package Model;
  *
  * @author Matheus Ramos
  */
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;

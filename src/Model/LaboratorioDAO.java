@@ -38,9 +38,9 @@ public class LaboratorioDAO {
 
     public void update(LaboratorioBEAN laboratorio) {
         String query = "UPDATE laboratorio SET descricaoLaboratorio=?, numeroEquipamento=?, statusLaboratorio=?, localizacao_idLocalizacao=?"
-                + "WHERE idLaboratorio=?";
+                + " WHERE idLaboratorio=?";
         MySQLDAO.executeQuery(query, laboratorio.getDescricaoLaboratorio(), laboratorio.getNumeroEquipamento(),
-                laboratorio.getStatusLaboratorio(), laboratorio.getLocalizacao_idLocalizacao());
+                laboratorio.getStatusLaboratorio(), laboratorio.getLocalizacao_idLocalizacao(), laboratorio.getIdLaboratorio());
 
     }
 

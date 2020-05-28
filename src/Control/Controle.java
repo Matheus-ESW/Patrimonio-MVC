@@ -6,6 +6,8 @@
 
 package Control;
 
+import Model.AuxLaboratorioEstacaoBEAN;
+import Model.AuxLaboratorioEstacaoDAO;
 import Model.EquipamentoBEAN;
 import Model.EquipamentoDAO;
 import Model.EstacaoTrabalhoBEAN;
@@ -218,8 +220,12 @@ public class Controle {
     
     
     // CONTROLE LABORATORIOS
-    public void addLaboratorio(LaboratorioBEAN laboratorio) {
-        LaboratorioDAO.getInstance().create(laboratorio);
+    public long addLaboratorio(LaboratorioBEAN laboratorio) {
+        return LaboratorioDAO.getInstance().create(laboratorio);
+    }
+    
+    public void updateLoboratorio(LaboratorioBEAN laboratorio){
+        LaboratorioDAO.getInstance().update(laboratorio);
     }
     
     public ArrayList<LaboratorioBEAN> buscaTodosLaboratorios() {
@@ -232,5 +238,22 @@ public class Controle {
     
     public ArrayList<LaboratorioBEAN> listaLaboratorioPorNome(LaboratorioBEAN laboratorio) {
         return LaboratorioDAO.getInstance().listaLaboratorioNome(laboratorio);
+    }
+    
+    //CONTROLE AUXILIAR ESTAÇOES POR LABORATORIO
+    public void addAuxiliarLabEstacao(AuxLaboratorioEstacaoBEAN aux){
+        AuxLaboratorioEstacaoDAO.getInstance().create(aux);
+    }
+    
+    public void updateAuxiliarEstacao(AuxLaboratorioEstacaoBEAN aux){
+        AuxLaboratorioEstacaoDAO.getInstance().update(aux);
+    }
+    
+    public ArrayList<AuxLaboratorioEstacaoBEAN> buscaTodosAuxiliares(int id) {
+        return AuxLaboratorioEstacaoDAO.getInstance().findAllAux(id);
+    }
+    
+    public void deleteAuxiliarEstacao(int id){
+        AuxLaboratorioEstacaoDAO.getInstance().delete(id);
     }
 }
